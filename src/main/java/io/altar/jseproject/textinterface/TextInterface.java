@@ -2,10 +2,12 @@ package io.altar.jseproject.textinterface;
 
 import java.util.Scanner;
 
+import io.altar.jseproject.business.ProductService;
+import io.altar.jseproject.business.ShelfService;
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.model.Shelf;
-import io.altar.jseproject.repositories.ProductRepository;
-import io.altar.jseproject.repositories.ShelfRepository;
+//import io.altar.jseproject.repositories.ProductRepository;
+//import io.altar.jseproject.repositories.ShelfRepository;
 
 public class TextInterface {
 
@@ -16,8 +18,10 @@ public class TextInterface {
 	// List<Product> produtos = new ArrayList<>();
 	// List<Shelf> prateleiras = new ArrayList<>();
 
-	ProductRepository productRepo = ProductRepository.getInstance();
-	ShelfRepository shelfRepo = ShelfRepository.getInstance();
+	//ProductRepository productRepo = ProductRepository.getInstance();
+	//ShelfRepository shelfRepo = ShelfRepository.getInstance();
+	ProductService productService = new ProductService();
+	ShelfService shelfService = new ShelfService();
 
 	public void menu() {
 		int opcao = -1; // inicio c uma opçao invalida pq se nao o while nem chega a inicializar uma vez
@@ -81,7 +85,7 @@ public class TextInterface {
 						long id = scanner.nextLong();
 						scanner.nextLine(); // limpa o buffer
 
-						Product produto = productRepo.getById(id);
+						Product produto = productService.getById(id);
 						
 //TODO NUMA UNICA ADIÇAO FAZER 3 REMOÇOES E 1 ADIÇAO
 						
@@ -122,7 +126,7 @@ public class TextInterface {
 							produto.setIva(novoIva);
 							produto.setPvp(novoPvp);
 
-							productRepo.edit(produto); // atualiza no repositorio
+							productService.edit(produto); // atualiza no repositorio
 							System.out.println("Produto atualizado com sucesso.");
 
 						} else {
@@ -140,7 +144,7 @@ public class TextInterface {
 					if (scanner.hasNextLong()) {// verifica se o q o utilizador inseriu é long
 						long id = scanner.nextLong(); // guarda na variavel id
 						scanner.nextLine(); // limpa o buffer
-						Product produto = productRepo.getById(id); // acessa o repositorio, productRepo é a minha bd em
+						Product produto = productService.getById(id); // acessa o repositorio, productRepo é a minha bd em
 																	// memoria (hashmap) e o metodo getById vai
 																	// prodcurar o produto c o id inserido pelo
 																	// utilizador e se n encontrar vem null
@@ -170,10 +174,10 @@ public class TextInterface {
 						long id = scanner.nextLong();
 						scanner.nextLine(); // limpa o buffer
 
-						Product produto = productRepo.getById(id); // verifica se existe
+						Product produto = productService.getById(id); // verifica se existe
 
 						if (produto != null) {
-							productRepo.remove(id); // Remove do HashMap<Long, Product> no repositorio
+							productService.remove(id); // Remove do HashMap<Long, Product> no repositorio
 							System.out.println("Produto com ID " + id + " removido com sucesso!");
 						} else {
 							System.out.println("Produto com ID " + id + " não encontrado!");
@@ -227,7 +231,7 @@ public class TextInterface {
 						long id = scanner.nextLong();
 						scanner.nextLine(); // limpa o buffer
 
-						Shelf prateleira = shelfRepo.getById(id);
+						Shelf prateleira = shelfService.getById(id);
 
 						if (prateleira != null) {
 							// Mostra valores atuais
@@ -256,7 +260,7 @@ public class TextInterface {
 							prateleira.setCapacidade(novaCapacidade);
 							prateleira.setPrecoAluguer(novoPrecoAluguer);
 
-							shelfRepo.edit(prateleira); // atualiza no repositorio
+							shelfService.edit(prateleira); // atualiza no repositorio
 							System.out.println("Prateleira atualizada com sucesso.");
 
 						} else {
@@ -274,7 +278,7 @@ public class TextInterface {
 					if (scanner.hasNextLong()) {// verifica se o q o utilizador inseriu é long
 						long id = scanner.nextLong(); // guarda na variavel id
 						scanner.nextLine(); // limpa o buffer
-						Shelf prateleira = shelfRepo.getById(id);
+						Shelf prateleira = shelfService.getById(id);
 
 						// mostrar detalhes
 						if (prateleira != null) {
@@ -300,10 +304,10 @@ public class TextInterface {
 						long id = scanner.nextLong();
 						scanner.nextLine(); // limpa o buffer
 
-						Shelf prateleira = shelfRepo.getById(id); // verifica se existe
+						Shelf prateleira = shelfService.getById(id); // verifica se existe
 
 						if (prateleira != null) {
-							shelfRepo.remove(id); // Remove do HashMap<Long, Shelf> no repositório
+							shelfService.remove(id); // Remove do HashMap<Long, Shelf> no repositório
 							System.out.println("Prateleira com ID " + id + " removida com sucesso!");
 						} else {
 							System.out.println("Prateleira com ID " + id + " não encontrada!");
@@ -361,7 +365,7 @@ public class TextInterface {
 
 		// Cria o produto e guarda na lista
 		Product novoProduto = new Product(desconto, iva, pvp);
-		productRepo.create(novoProduto);
+		productService.create(novoProduto);
 		// produtos.add(novoProduto); // guarda
 
 		System.out.println("Produto criado.");
@@ -390,20 +394,20 @@ public class TextInterface {
 
 		// Cria a prateleira e guarda na lista
 		Shelf novaPrateleira = new Shelf(capacidade, precoAluguer);
-		shelfRepo.create(novaPrateleira); // guarda
+		shelfService.create(novaPrateleira); // guarda
 
 	}
 
 	public void listarProdutos() {
 		System.out.println("----- LISTA DE PRODUTOS -----");
 		// Verifica se há produtos na lista
-		if (productRepo.getAll().isEmpty()) {
+		if (productService.getAll().isEmpty()) {
 			System.out.println("Ainda não foram criados produtos.");
 			return;
 		}
 
 		// Percorre e mostra os detalhes de cada produto
-		for (Product produto : productRepo.getAll()) {
+		for (Product produto : productService.getAll()) {
 			System.out.println("ID: " + produto.getId());
 			System.out.println("Desconto: " + produto.getDescontoUni());
 			System.out.println("IVA: " + produto.getIva());
@@ -415,13 +419,13 @@ public class TextInterface {
 	public void listarPrateleiras() {
 		System.out.println("----- LISTA DE PRATELEIRAS -----");
 		// Verifica se há prateleiras na lista
-		if (shelfRepo.getAll().isEmpty()) {
+		if (shelfService.getAll().isEmpty()) {
 			System.out.println("Ainda não foram criadas prateleiras.");
 			return;
 		}
 
 		// Percorre e mostra os detalhes de cada prateleira
-		for (Shelf prateleira : shelfRepo.getAll()) {
+		for (Shelf prateleira : shelfService.getAll()) {
 			System.out.println("ID: " + prateleira.getId());
 			System.out.println("Capacidade: " + prateleira.getCapacidade());
 			System.out.println("Preço de aluguer: " + prateleira.getPrecoAluguer());
