@@ -3,7 +3,7 @@
   <groupId>io.altar</groupId>
   <artifactId>jsemavenproject</artifactId>
   <version>0.0.1</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   
   
   <properties>
@@ -14,7 +14,15 @@
  </properties>
   
   <dependencies>
-  <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+  
+  <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
   <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -26,6 +34,7 @@
  <build>
   <finalName>${project.artifactId}</finalName>
   <plugins>
+  <!-- criar ficheiro jar através do maven
    <plugin>
     <version>3.4.2</version>
     <groupId>org.apache.maven.plugins</groupId>
@@ -38,7 +47,35 @@
       </manifest>
      </archive>
     </configuration>
-   </plugin>
+   </plugin>-->
+   
+   <plugin> <!--configuraçoes de um plugin maven q faz o deploy p servidor wildfly-->
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>2.0.1.Final</version>
+        <executions>
+          <!-- Undeploy the application on clean -->
+          <execution>
+            <id>undeploy</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>undeploy</goal>
+            </goals>
+            <configuration>
+              <ignoreMissingDeployment>true</ignoreMissingDeployment>
+            </configuration>
+          </execution>
+
+          <!-- deploy the application on install -->
+          <execution>
+            <id>deploy</id>
+            <phase>install</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
   </plugins>
  </build>
 </project> 
