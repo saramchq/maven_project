@@ -10,6 +10,10 @@ public class Shelf extends myEntity{ // esta classe representa uma prateleira
 	private long idProduto; //aqui é onde guardo o id do produto
 	private double precoAluguer;
 	
+	public Shelf() { // construtor vazio necessario p criar automaticamente as 12 prateleiras da Store
+		
+	} 
+	
 	public Shelf(int capacidade, double precoAluguer) { 
 		//this.id=contadorIds++;
 		this.capacidade = capacidade; 
