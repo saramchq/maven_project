@@ -5,18 +5,22 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 // serviços e modelos
 import io.altar.jseproject.business.ProductService;
+import io.altar.jseproject.business.UserService;
 import io.altar.jseproject.model.Product;
+import io.altar.jseproject.model.User;
 
 @Path("products")
 //coloquei o consumes e produces na classe pq assim evita repetição nas anotações dos métodos. Se usar aqui ja n preciso usar depois.
@@ -25,6 +29,8 @@ import io.altar.jseproject.model.Product;
 public class ProductController { // é como se fosse o TextInterface, mas para a API REST
 
 	private final ProductService productService = new ProductService();
+	private final UserService userService = new UserService();
+
 
 	@Context
 	protected UriInfo context;
@@ -37,11 +43,6 @@ public class ProductController { // é como se fosse o TextInterface, mas para a
 		return context.getRequestUri().toString() + " is ok";
 	}
 
-	// criar produto (POST /api/products)
-	@POST
-	public long createProduct(Product product) {
-		return productService.create(product);
-	}
 
 	// ir buscar produto por ID (GET /api/products/5)
 	@GET
@@ -67,7 +68,29 @@ public class ProductController { // é como se fosse o TextInterface, mas para a
 	// apagar produto (DELETE /api/products/5)
 	@DELETE
 	@Path("/{id}")
-	public void deleteProduct(@PathParam("id") long id) {
-		productService.remove(id); 
+	public void deleteProduct(
+	    @PathParam("id") long id,
+	    @HeaderParam("userId") long userId) {
+
+	    User user = userService.getById(userId);
+
+	    if (!userService.canAccessProducts(user)) {
+	        throw new WebApplicationException("Acesso negado", 403);
+	    }
+
+	    productService.remove(id);
 	}
+	
+	//metodo q so deixa criar produtos se o utilizador tiver um role autorizado usando o id enviado pelo headparam
+	@POST
+	public long createProduct(Product product, @HeaderParam("userId") long userId) {
+	    User user = userService.getById(userId);
+
+	    if (!userService.canAccessProducts(user)) {
+	        throw new WebApplicationException("Acesso negado", 403);
+	    }
+
+	    return productService.create(product);
+	}
+
 }

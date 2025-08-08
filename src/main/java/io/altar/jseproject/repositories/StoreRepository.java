@@ -17,7 +17,7 @@ public class StoreRepository {
 		
 	}
 	
-	public static StoreRepository geInstance() {
+	public static StoreRepository getInstance() {
 		return INSTANCE;
 	}
 	
