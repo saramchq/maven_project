@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.enterprise.context.Dependent;
+
 import io.altar.jseproject.model.myEntity;
 
+@Dependent // esta classe só existe como base para ser usada pelas classes concretas que terão o scope real
 public abstract class EntityRepository<T extends myEntity> { // classe abstrata genérica. Funciona como um repositório
 																// (ou base de dados) para qualquer tipo de entidade
 																// desde q herde de MyEntity

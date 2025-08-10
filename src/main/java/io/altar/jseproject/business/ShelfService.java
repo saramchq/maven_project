@@ -2,18 +2,29 @@ package io.altar.jseproject.business;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 
-
 import io.altar.jseproject.model.Shelf;
-import io.altar.jseproject.repositories.ShelfRepository;
 import io.altar.jseproject.repositories.ProductRepository;
+import io.altar.jseproject.repositories.ShelfRepository;
 
-
+@ApplicationScoped
 public class ShelfService {
+	
+	@Inject
+	private ShelfRepository shelfRepository;
+	
+	@Inject
+	private ProductRepository productRepository;
+	
 
-	private final ShelfRepository shelfRepository = ShelfRepository.getInstance();
-	private final ProductRepository productRepository = ProductRepository.getInstance();
+	/*
+	 * private final ShelfRepository shelfRepository =
+	 * ShelfRepository.getInstance(); private final ProductRepository
+	 * productRepository = ProductRepository.getInstance();
+	 */
 
 	// não pode ser alterado fora da classe
     //este é o unico ponto de comunicaçao coma  camada de persistencia

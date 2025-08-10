@@ -2,13 +2,22 @@ package io.altar.jseproject.business;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.repositories.ProductRepository;
 
+@ApplicationScoped
 public class ProductService { //camada intermedia
-    private final ProductRepository productRepository = ProductRepository.getInstance(); // não pode ser alterado fora da classe
+	
+	@Inject
+	private ProductRepository productRepository; // cdi injeta a instancia sem o getinstance
+	
+	
+	
+    // private final ProductRepository productRepository = ProductRepository.getInstance(); // não pode ser alterado fora da classe
     //este é o unico ponto de comunicaçao com a camada de persistencia ( parte do teu projeto responsável por guardar, buscar, editar e remover dados)
     //cria uma variável chamada productRepository, que é do tipo ProductRepository, e guarda nela a única instância existente (padrão Singleton)
     

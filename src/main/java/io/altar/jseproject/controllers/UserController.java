@@ -28,6 +28,13 @@ public class UserController {
 		return userService.create(user);
 	}
 	
+	// Buscar utilizador por ID
+	@GET
+	@Path("/{id}")
+	public User getUserById(@PathParam("id") long id) {
+	    return userService.getById(id);
+	}
+
 	//listar tds os utilizadores
 	@GET
 	public Collection<User> getAllUsers(){

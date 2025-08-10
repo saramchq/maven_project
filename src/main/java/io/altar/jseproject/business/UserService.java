@@ -2,12 +2,19 @@ package io.altar.jseproject.business;
 
 import java.util.Collection;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import io.altar.jseproject.model.User;
 import io.altar.jseproject.repositories.UserRepository;
 
+@ApplicationScoped
 public class UserService {
+	
+	@Inject
+	private UserRepository userRepository;
 
-    private final UserRepository userRepository = UserRepository.getInstance();
+   //private final UserRepository userRepository = UserRepository.getInstance();
 
     //criar um utilizador
     public User create(User user) {

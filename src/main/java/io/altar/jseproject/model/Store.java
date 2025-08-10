@@ -16,12 +16,6 @@ public class Store {
 	public Store(Long id, String name) {
 		this.id = id;
 		this.name = name;
-
-		// criar 12 prateleiras ao iniciar a store conforme o exemplo do Jonas
-
-		for (int i = 0; i < 12; i++) {
-			shelves.add(new Shelf());
-		}
 	}
 
 	public long getId() {
