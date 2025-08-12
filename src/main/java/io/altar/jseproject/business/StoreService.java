@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import io.altar.jseproject.model.Shelf;
 import io.altar.jseproject.model.Store;
@@ -27,6 +28,7 @@ public class StoreService {
 	 */
 
 	// criar uma Store
+	@Transactional
 	public Store create(Store store) {
 		// Cria 12 prateleiras com capacidade 10 e preço 0
 		for (int i = 0; i < 12; i++) {
@@ -51,16 +53,19 @@ public class StoreService {
 	}
 
 	// editar uma Store
+	@Transactional
 	public void edit(Store store) {
 		storeRepository.edit(store);
 	}
 
 	// remover Store por ID
+	@Transactional
 	public void remove(long id) {
 		storeRepository.remove(id);
 	}
 
 	// associar utilizador a uma Store
+	@Transactional
 	public void associarUser(long storeId, long userId) {
 		Store store = storeRepository.getById(storeId);
 		if (store != null) {

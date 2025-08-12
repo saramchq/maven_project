@@ -3,6 +3,7 @@ package io.altar.jseproject.controllers;
 import java.util.Collection;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,6 +23,7 @@ import io.altar.jseproject.model.Store;
 @RequestScoped
 public class StoreController {
 	
+	@Inject
 	private StoreService storeService;
     //private final StoreService storeService = new StoreService();
 

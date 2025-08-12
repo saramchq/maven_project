@@ -3,6 +3,7 @@ package io.altar.jseproject.controllers;
 import java.util.Collection;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,6 +23,7 @@ import io.altar.jseproject.model.User;
 @RequestScoped
 public class UserController {
 
+	@Inject
 	private UserService userService;
 	//private final UserService userService = new UserService();
 	
@@ -46,7 +48,8 @@ public class UserController {
 	
 	//Editar utilizador
 	@PUT
-	public void edit(User user) {
+	@Path("/{id}")
+	public void edit(@PathParam("id") long id, User user) {
 		userService.edit(user);
 	}
 	

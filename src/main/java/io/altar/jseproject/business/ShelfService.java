@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.WebApplicationException;
 
 import io.altar.jseproject.model.Shelf;
@@ -31,6 +32,7 @@ public class ShelfService {
     //cria uma variável chamada shelfRepository, que é do tipo shelfRepository, e guarda nela a única instância existente (padrão Singleton)
     
 	//cria uma nova prateleria e devolve o id atribuido
+	@Transactional
 	public long create(Shelf shelf) {
 		 // 1. Capacidade tem de ser maior que 0
 	    if (shelf.getCapacidade() <= 0) {
@@ -60,6 +62,7 @@ public class ShelfService {
 	}
 
 	// Edita uma prateleira existente
+	@Transactional
 	public void edit(Shelf shelf) {
 		 // 1. Capacidade tem de ser maior que 0
 	    if (shelf.getCapacidade() <= 0) {
@@ -79,6 +82,7 @@ public class ShelfService {
 	}
 
 	// Remove uma prateleira pelo ID
+	@Transactional
 	public void remove(long id) {
 		shelfRepository.remove(id);
 	}

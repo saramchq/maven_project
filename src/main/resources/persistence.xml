@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+  <!-- nome do @PersistenceContext -->
+  <persistence-unit name="mypersistence" transaction-type="JTA">
+
+    <!-- JTA data-source (JNDI)-->
+    <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+
+
+    <properties>
+      <!-- cria/atualiza tabelas a partir das entidades JPA-->
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <!-- só para logging -->
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/> 
+<!--  serve p ver as queries SQL no log e formatadas -->
+    </properties>
+  </persistence-unit>
+</persistence>

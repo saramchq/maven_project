@@ -3,31 +3,39 @@ package io.altar.jseproject.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
-	private long id;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "app_user") // p evitar conflito com a palavra reservada USER
+public class User extends myEntity {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Column(nullable = false, length = 100)
 	private String name;
+	
+	@Column(nullable = false, unique = true, length = 150)
 	private String email;
+	
+	@Column(nullable = false, length = 40)
 	private String role; // cargo do user
+	
+	//ids das lojas onde o user trabalha
+	@ElementCollection
 	private List<Long> storeIds = new ArrayList<>(); // ids das lojas onde o user travbalha
 
 	public User() {
 
 	}
 
-	public User(long id, String name, String email, String role) {
-		this.id = id;
+	public User(String name, String email, String role) {
 		this.name = name;
 		this.email = email;
-		this.role = role;
+		setRole(role); //chama o setRole p garantir q ate aqi o valor vem normalizado
 
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -51,7 +59,9 @@ public class User {
 	}
 
 	public void setRole(String role) {
-		this.role = role;
+		this.role = (role == null) ? null : role.trim().toLowerCase();
+		// trim remove os espaços no inicio e fim da string e o tolowercase
+		// converte tudo p minusculas
 	}
 
 	public List<Long> getStoreIds() {

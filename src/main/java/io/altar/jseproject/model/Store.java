@@ -3,27 +3,31 @@ package io.altar.jseproject.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Store {
-	private long id;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+@Entity
+@Table(name = "store")
+public class Store extends myEntity {
+	
+	private static final long serialVersionUID = 1L;
+	
+	//private long id;
 	private String name;
+	
+	@ElementCollection
 	private List<Long> userIds = new ArrayList<>(); // ids dos users q trabalham em x loja
+	
+	@OneToMany
 	private List<Shelf> shelves = new ArrayList<>(); // lista de prateleiras da loja
 
 	public Store() {
 
 	}
 
-	public Store(Long id, String name) {
-		this.id = id;
+	public Store(String name) {
 		this.name = name;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getName() {

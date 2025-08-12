@@ -31,8 +31,11 @@ import io.altar.jseproject.model.User;
 @RequestScoped
 public class ProductController { // é como se fosse o TextInterface, mas para a API REST
 
+	@SuppressWarnings("cdi-ambiguous-dependency")
 	@Inject
 	private ProductService productService;
+	
+	@Inject
 	private UserService userService;
 	//private final ProductService productService = new ProductService();
 	//private final UserService userService = new UserService();

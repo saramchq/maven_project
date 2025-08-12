@@ -1,19 +1,20 @@
 package io.altar.jseproject.repositories;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import io.altar.jseproject.model.Store;
 
 @ApplicationScoped
 public class StoreRepository {
 
-	private Map<Long, Store> stores = new HashMap<>();
-	private long currentId = 1; // auto incremento
-	
+	// private Map<Long, Store> stores = new HashMap<>();
+	// private long currentId = 1; // auto incremento
+
 	/*
 	 * private static final StoreRepository INSTANCE = new StoreRepository();
 	 * //singleton, garante q so existe uma instancia desta classe
@@ -24,33 +25,41 @@ public class StoreRepository {
 	 * 
 	 * public static StoreRepository getInstance() { return INSTANCE; }
 	 */
-	
-	
-	//criar
+
+	@PersistenceContext(unitName = "mypersistence")
+	private EntityManager em;
+
+	// criar
 	public Store create(Store store) {
-		store.setId(currentId++);
-		stores.put(store.getId(), store);
-		return store;
+		em.persist(store); // INSERT
+		// store.setId(currentId++);
+		// stores.put(store.getId(), store);
+		return store; // o id é preenchido pelo JPA
 	}
-	
-	//buscar por id
+
+	// buscar por id
 	public Store getById(long id) {
-		return stores.get(id);
+		return em.find(Store.class, id); // SELECT por primary key
+		// return stores.get(id);
 	}
-	
-	//buscar todos
+
+	// buscar todos
 	public Collection<Store> getAll() {
-		return stores.values();
+		List<Store> list = em.createQuery("SELECT s FROM Store s", Store.class).getResultList(); // JPQL
+		return list;
 	}
-	
-	//editar
+
+	// editar
 	public void edit(Store store) {
-		stores.put(store.getId(), store);
+		em.merge(store); //UPDATE
 	}
-	
-	//remover
+
+	// remover
 	public void remove(long id) {
-		stores.remove(id);
+		Store managed = em.find(Store.class, id);
+		if (managed != null) {
+			em.remove(managed);//DELETE
+		}
 	}
-	
+
 }

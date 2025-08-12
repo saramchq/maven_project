@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import io.altar.jseproject.model.User;
 import io.altar.jseproject.repositories.UserRepository;
@@ -17,6 +18,7 @@ public class UserService {
    //private final UserRepository userRepository = UserRepository.getInstance();
 
     //criar um utilizador
+	@Transactional
     public User create(User user) {
         return userRepository.create(user);
     }
@@ -32,11 +34,13 @@ public class UserService {
     }
 
     //editar um User
+    @Transactional
     public void edit(User user) {
         userRepository.edit(user);
     }
 
     //remover User
+    @Transactional
     public void remove(long id) {
         userRepository.remove(id);
     }
@@ -48,6 +52,7 @@ public class UserService {
     }
     
     //associar uma store a um utilizador
+    @Transactional
     public void associarStore(long userId, long storeId) {
         User user = userRepository.getById(userId);
         if (user != null) {

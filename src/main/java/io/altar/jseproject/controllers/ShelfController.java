@@ -3,6 +3,7 @@ package io.altar.jseproject.controllers;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -25,6 +26,8 @@ import io.altar.jseproject.model.Shelf;
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped
 public class ShelfController { //é como se fosse o textinterface só q pra api. Classe que define os endpoints REST
+	
+	@Inject
 	private ShelfService shelfService;
 	//private final ShelfService shelfservice = new ShelfService(); //indica q o shelfservice n vai mudar e evita bugs 
 	@Context
