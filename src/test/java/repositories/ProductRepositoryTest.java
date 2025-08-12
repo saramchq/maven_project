@@ -14,8 +14,9 @@ public class ProductRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        repo = ProductRepository.getInstance();
-        repo.reset(); // limpa os dados antes de cada teste (certifica-te que este método existe no repositório)
+    	repo = new ProductRepository();//instancia direta pq deu erro qnd apaguei o text interface
+       // repo = ProductRepository.getInstance();
+        //repo.reset(); // limpa os dados antes de cada teste (certifica-te que este método existe no repositório)
     }
 
     @Test
