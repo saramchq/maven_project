@@ -2,6 +2,7 @@ package io.altar.jseproject.controllers;
 
 import java.util.Collection;
 
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,9 +19,11 @@ import io.altar.jseproject.model.User;
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class UserController {
 
-	private final UserService userService = new UserService();
+	private UserService userService;
+	//private final UserService userService = new UserService();
 	
 	//criar utilizador
 	@POST

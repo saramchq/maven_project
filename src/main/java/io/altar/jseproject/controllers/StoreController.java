@@ -2,6 +2,7 @@ package io.altar.jseproject.controllers;
 
 import java.util.Collection;
 
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,9 +19,11 @@ import io.altar.jseproject.model.Store;
 @Path("/stores")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class StoreController {
-
-    private final StoreService storeService = new StoreService();
+	
+	private StoreService storeService;
+    //private final StoreService storeService = new StoreService();
 
     // 🔹 Criar nova Store (cria automaticamente 12 prateleiras)
     @POST

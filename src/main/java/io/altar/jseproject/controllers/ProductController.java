@@ -2,6 +2,8 @@ package io.altar.jseproject.controllers;
 
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,10 +28,14 @@ import io.altar.jseproject.model.User;
 //coloquei o consumes e produces na classe pq assim evita repetição nas anotações dos métodos. Se usar aqui ja n preciso usar depois.
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class ProductController { // é como se fosse o TextInterface, mas para a API REST
 
-	private final ProductService productService = new ProductService();
-	private final UserService userService = new UserService();
+	@Inject
+	private ProductService productService;
+	private UserService userService;
+	//private final ProductService productService = new ProductService();
+	//private final UserService userService = new UserService();
 
 
 	@Context

@@ -2,6 +2,7 @@ package io.altar.jseproject.controllers;
 
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,8 +23,10 @@ import io.altar.jseproject.model.Shelf;
 //coloquei o consumes e produces na classe pq assim evita repetição nas anotações dos métodos. Se usar aqui ja n preciso usar depois.
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class ShelfController { //é como se fosse o textinterface só q pra api. Classe que define os endpoints REST
-	private final ShelfService shelfservice = new ShelfService(); //indica q o shelfservice n vai mudar e evita bugs 
+	private ShelfService shelfService;
+	//private final ShelfService shelfservice = new ShelfService(); //indica q o shelfservice n vai mudar e evita bugs 
 	@Context
 	protected UriInfo context; //injeta um objeto UriInfo q contém informações sobre a URL atual da requisição HTTP
 	
@@ -38,7 +41,7 @@ public class ShelfController { //é como se fosse o textinterface só q pra api.
 	//cria prateleira
 	@POST
 	public long createShelf(Shelf shelf) {
-		return shelfservice.create(shelf);
+		return shelfService.create(shelf);
 	}
 	
 	//ir buscar uma prateleira pelo id
@@ -46,13 +49,13 @@ public class ShelfController { //é como se fosse o textinterface só q pra api.
 	@Path("/{id}")
 	//este metodo responde ao GET /shelves/2 (por ex) e devolve a prateleira c id 2
 	public Shelf getById(@PathParam("id") long id) {
-		return shelfservice.getById(id);
+		return shelfService.getById(id);
 	}
 	
 	//listar todas as prateleiras
 	@GET
 	public List<Shelf> getAllShelves() {// responde ao get /shelves e devolve todas as prateleiras q existam
-		return shelfservice.getAll();	
+		return shelfService.getAll();	
 	}
 	
 	//editar uma prateleira existente
@@ -60,13 +63,13 @@ public class ShelfController { //é como se fosse o textinterface só q pra api.
 	@Path("/{id}")
 	public void editShelf(@PathParam("id") long id, Shelf shelf) { // responde ao PUT /shelves/2 c um json no corpo e edita a prateleira c o id 2 (ex)
 		shelf.setId(id); //garante q o id do obj é o msm da URL
-		shelfservice.edit(shelf);
+		shelfService.edit(shelf);
 	}
 	
 	//deleta uma prateleira pelo id
 	@DELETE
 	@Path("/{id}")
 	public void deleteShelf(@PathParam("id") long id) {
-		shelfservice.remove(id);
+		shelfService.remove(id);
 		}
 	}
