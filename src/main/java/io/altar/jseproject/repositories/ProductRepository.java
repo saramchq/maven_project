@@ -2,9 +2,8 @@ package io.altar.jseproject.repositories;
 
 import java.util.List;
 
+
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.repositories.interfaces.ProductInterface;
@@ -13,8 +12,10 @@ import io.altar.jseproject.repositories.interfaces.ProductInterface;
 @ApplicationScoped // uma instância para toda a app
 public class ProductRepository extends EntityRepository<Product> implements ProductInterface {
 	
-	@PersistenceContext(unitName = "mypersistence")
-	private EntityManager em;
+	@Override
+	protected Class<Product> getEntityClass() {
+		return Product.class;
+	}
 	
 	@Override //Garante que a assinatura do método está igual à definida na classe pai
 	public long create(Product p) {

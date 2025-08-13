@@ -1,78 +1,51 @@
 package io.altar.jseproject.repositories;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.enterprise.context.Dependent;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import io.altar.jseproject.model.myEntity;
 
 @Dependent // esta classe só existe como base para ser usada pelas classes concretas que terão o scope real
 public abstract class EntityRepository<T extends myEntity> { // classe abstrata genérica. Funciona como um repositório
-																// (ou base de dados) para qualquer tipo de entidade
-																// desde q herde de MyEntity
+																// (ou base de dados) para qualquer tipo de entidade													// desde q herde de MyEntity
 
-	private Map<Long, T> db = new HashMap<>(); // base de dados em memória
-	private long currentId = 0; // gera ids automáticos
+	@PersistenceContext(unitName = "mypersistence")
+	protected EntityManager em;
+	
+	//cada subclasse indica a classe da entidade
+	protected abstract Class<T> getEntityClass();
+	//private Map<Long, T> db = new HashMap<>(); // base de dados em memória
+	//private long currentId = 0; // gera ids automáticos
 
-// gera o proximo id
-	private long getNextId() {
-		return ++currentId;
-	}
+	// CREATE
+    public long create(T entity) {
+        em.persist(entity); // INSERT
+        return entity.getId(); // ID já preenchido pelo JPA
+    }
 
-// cria entidade
-	public long create(T entity) {
-		if (entity.getId() != null) { // PRATICA3 EXCEPTIONS
-			throw new IllegalArgumentException("O ID deve ser null ao criar uma nova entidade."); //// Isto será
-																									//// mostrado se
-																									//// alguém tentar
-																									//// criar uma
-																									//// entidade que já
-																									//// tenha um ID
-		}
-		Long newId = getNextId(); // gera novo id
-		entity.setId(newId);// exemplo: eu crio o obj sem id no construtor e depois o repositorio chama
-							// setId(...) para atribuir um id ao obj
-		db.put(newId, entity); // guarda o obj na bd
-		return newId; // retorna o id criado
-	}
+    // READ by ID
+    public T getById(Long id) {
+        return (id == null) ? null : em.find(getEntityClass(), id);
+    }
 
-// Consultar por ID
-	public T getById(Long id) { // recebe o id
-		if (id == null) { // PRATICA3 EXCEPTIONS
-			throw new IllegalArgumentException("ID não pode ser null na pesquisa.");
-		}
-		return db.get(id); // retorna a entidade correspondente
-	}
+    // READ all
+    public List<T> getAll() {
+        // JPQL baseado no nome da entidade
+        return em.createQuery("SELECT e FROM " + getEntityClass().getSimpleName() + " e", getEntityClass()) //jpa dinamico p queries simples
+                 .getResultList();
+    }
 
-	// obtem todos os registos
-	public List<T> getAll() {
-		return new ArrayList<>(db.values()); // retorna uma lista de obj guardados. db.values devolve todos os valores
-												// do map (produtos/prateleiras) e transforma em arraylist
-	}
+    // UPDATE
+    public void edit(T entity) {
+        em.merge(entity);
+    }
 
-// Editar entidade
-	public void edit(T entity) {
-		if (entity.getId() == null) { // PRATICA3 EXCEPTIONS
-			throw new IllegalArgumentException("O ID não pode ser null ao editar uma entidade"); // EXCEPTION
-		}
-		db.put(entity.getId(), entity); // substitui uma enteidade q ja existe no map c base no seu id (caso eu queira
-										// alterar nome, valor, etc)
-	}
-
-// Remover por ID
-	public void remove(Long id) {
-		db.remove(id); // elimina a entidade c o id fornecido
-	}
-
-
-
-//Limpa todos os dados do repositório (p usar em testes)
-public void reset() {
- db.clear();         // remove todos os elementos do hashmap
- currentId = 0;      // reinicia a contagem de ids
+    // DELETE
+    public void remove(Long id) {
+        if (id == null) return;
+        T managed = em.find(getEntityClass(), id);
+        if (managed != null) em.remove(managed);
+    }
 }
-}
-//TODO ver collections
