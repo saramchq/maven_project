@@ -1,17 +1,14 @@
 package io.altar.jseproject.repositories;
 import java.util.List;
-
-import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import io.altar.jseproject.model.myEntity;
-
-@Dependent // esta classe só existe como base para ser usada pelas classes concretas que terão o scope real
+ // esta classe só existe como base para ser usada pelas classes concretas que terão o scope real
 public abstract class EntityRepository<T extends myEntity> { // classe abstrata genérica. Funciona como um repositório
 																// (ou base de dados) para qualquer tipo de entidade													// desde q herde de MyEntity
 
-	@PersistenceContext(unitName = "mypersistence")
+	@PersistenceContext(unitName = "mypersistence") //atribuo a minha variavel em uma persistencia q ja está configurada
 	protected EntityManager em;
 	
 	//cada subclasse indica a classe da entidade

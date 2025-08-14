@@ -29,7 +29,7 @@ public class StoreController {
 
     // 🔹 Criar nova Store (cria automaticamente 12 prateleiras)
     @POST
-    public Store createStore(Store store) {
+    public long createStore(Store store) {
         return storeService.create(store);
     }
 

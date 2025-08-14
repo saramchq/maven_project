@@ -29,7 +29,7 @@ public class StoreService {
 
 	// criar uma Store
 	@Transactional
-	public Store create(Store store) {
+	public long create(Store store) {
 		// Cria 12 prateleiras com capacidade 10 e preço 0
 		for (int i = 0; i < 12; i++) {
 			Shelf shelf = new Shelf(10, 0.0);

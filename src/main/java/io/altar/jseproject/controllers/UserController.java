@@ -29,7 +29,7 @@ public class UserController {
 	
 	//criar utilizador
 	@POST
-	public User createUser(User user) {
+	public long createUser(User user) {
 		return userService.create(user);
 	}
 	

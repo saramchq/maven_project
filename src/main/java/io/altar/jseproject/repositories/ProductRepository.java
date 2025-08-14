@@ -30,7 +30,7 @@ public class ProductRepository extends EntityRepository<Product> implements Prod
 	
 	@Override
 	public List<Product> getAll() {
-		return em.createQuery("SELECT p FROM Product p", Product.class)
+		return em.createQuery("SELECT p FROM Product p", Product.class) //qnd as minhas queries puderem ser mais complexas as namedqueries criam indexação q o createquery nao cria
 				.getResultList(); //JPQL, é tipo o SQL só q baseado em entidades e não em tabelas
 	}
 	

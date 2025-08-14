@@ -19,8 +19,8 @@ public class Store extends myEntity {
 	@ElementCollection
 	private List<Long> userIds = new ArrayList<>(); // ids dos users q trabalham em x loja
 	
-	@OneToMany
-	private List<Shelf> shelves = new ArrayList<>(); // lista de prateleiras da loja
+	@OneToMany(mappedBy = "store")
+	private List<Shelf> shelves; // lista de prateleiras da loja
 
 	public Store() {
 

@@ -43,7 +43,7 @@ public class ProductService { //camada intermedia
     }
 
     //devolve a partir do id ou ent da null se n existir
-	@Transactional (value = TxType.SUPPORTS) // tipo de propagação, se ja existir uma transaçao ativa o metodo entra nela e partilha a mesma transaçao se nao, cria uma nova
+	//@Transactional (value = TxType.SUPPORTS) // tipo de propagação, se ja existir uma transaçao ativa o metodo entra nela e partilha a mesma transaçao se nao, cria uma nova
     public Product getById(long id) {
         return productRepository.getById(id);
     }

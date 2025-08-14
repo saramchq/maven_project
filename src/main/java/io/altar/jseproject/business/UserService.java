@@ -19,7 +19,7 @@ public class UserService {
 
     //criar um utilizador
 	@Transactional
-    public User create(User user) {
+    public long create(User user) {
         return userRepository.create(user);
     }
 

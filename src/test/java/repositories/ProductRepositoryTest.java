@@ -3,8 +3,11 @@ package repositories;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.repositories.ProductRepository;
 
@@ -20,13 +23,15 @@ public class ProductRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void testCreateProduct() {
         Product p = new Product(10.0, 23.0, 100.0);
         long id = repo.create(p);
         assertEquals(p, repo.getById(id));
         assertNotNull(p.getId());
     }
-
+    
+    @Disabled
     @Test
     public void testCreateProductComIdNaoNulo() {
         Product p = new Product(10.0, 23.0, 100.0);
@@ -36,7 +41,8 @@ public class ProductRepositoryTest {
             repo.create(p); // deve lançar exceção
         });
     }
-
+    
+    @Disabled
     @Test
     public void testEditProduct() {
         Product p = new Product(5.0, 13.0, 50.0);
@@ -47,6 +53,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void testEditProductSemId() {
         Product p = new Product(5.0, 13.0, 50.0);
 

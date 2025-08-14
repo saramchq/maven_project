@@ -1,6 +1,7 @@
 package io.altar.jseproject.model;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,7 +13,8 @@ public class Shelf extends myEntity{ // esta classe representa uma prateleira
 	//private static int contadorIds = 1; //não é um objeto especifico e serve pra gerar ids unicos p cada prateleira
 	//private final int id; //id é final pq so pode ser atribuido uma vez no construtor
 	// #####################################################################
-	
+	@ManyToOne
+	private Store store;
 	private int capacidade;
 	private Long idProduto; //aqui é onde guardo o id do produto. Como este valor pode eventualmente não existir (ex shelf sem produto associado), é mais seguro usar Long e nao long( q n pode ser null pq tem 0 por padrão)
 	private double precoAluguer;
@@ -52,6 +54,14 @@ public class Shelf extends myEntity{ // esta classe representa uma prateleira
 	}
 	public void setPrecoAluguer(double precoAluguer) {
 		this.precoAluguer = precoAluguer;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
 }
