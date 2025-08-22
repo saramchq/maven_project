@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 
 @Entity
@@ -16,16 +17,17 @@ public class Product extends myEntity {
 	// private final int id; //final significa q só pode ser atribuido uma unica vez
 	// ou seja uma vez definido no construtor nao pode mais ser alterado
 	// #####################################################################
-	
+
 	private static final long serialVersionUID = 1L;
-	
-	@ElementCollection
+
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<Long> prateleiras; // ids das prateleiras
 	private double descontoUni;
 	private double iva;
 	private double pvp;
 
-	public Product() { // construtor sem argumentos p garantir q os obj sao criados quando busca do banco
+	public Product() { // construtor sem argumentos p garantir q os obj sao criados quando busca do
+						// banco
 		this.prateleiras = new ArrayList<>();
 	}
 
