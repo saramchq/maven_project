@@ -55,9 +55,15 @@ public class ProductController { // é como se fosse o TextInterface, mas para a
 	// ir buscar produto por ID (GET /api/products/5)
 	@GET
 	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Product getById(@PathParam("id") long id) {
-		return productService.getById(id);
+	    Product p = productService.getById(id);
+	    if (p == null) {
+	        throw new WebApplicationException("Produto não encontrado", 404);
+	    }
+	    return p;
 	}
+
 
 	// listar todos os produtos (GET /api/products)
 	@GET
@@ -91,14 +97,9 @@ public class ProductController { // é como se fosse o TextInterface, mas para a
 	
 	//metodo q so deixa criar produtos se o utilizador tiver um role autorizado usando o id enviado pelo headparam
 	@POST
-	public long createProduct(Product product, @HeaderParam("userId") long userId) {
-	    User user = userService.getById(userId);
-
-	    if (!userService.canAccessProducts(user)) {
-	        throw new WebApplicationException("Acesso negado", 403);
-	    }
-
+	public long createProduct(Product product) {
 	    return productService.create(product);
 	}
+
 
 }
