@@ -3,9 +3,12 @@ package io.altar.jseproject.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -24,8 +27,17 @@ public class User extends myEntity {
 	private String role; // cargo do user
 	
 	//ids das lojas onde o user trabalha
-	@ElementCollection
-	private List<Long> storeIds = new ArrayList<>(); // ids das lojas onde o user travbalha
+	// ids das lojas onde o user trabalha
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(
+	    name = "user_stores",
+	    joinColumns = @JoinColumn(name = "user_id")
+	)
+	@Column(name = "store_id")
+	private List<Long> storeIds = new ArrayList<>();
+
+	//@ElementCollection
+	//private List<Long> storeIds = new ArrayList<>(); // ids das lojas onde o user travbalha
 
 	public User() {
 
